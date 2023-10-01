@@ -1,0 +1,21 @@
+package ilhan: golem-poll-manager
+
+interface api {
+  login: func(email: string) -> result<string, string> // sends email secret code
+  verify: func(code: string) -> result<string, string> // verifies email secret code and returns access/refresh tokens
+  refresh: func(email: string, refresh-token: string) -> result<string, string> // refreshes tokens by email and refresh token
+  logout: func(access-token: string) -> result<_, string> // logout by access token (invalidates refresh token)
+
+  validate: func(access-token: string) -> bool // validates access token for testing purposes
+}
+
+world manager {
+  import wasi:poll/poll
+  import wasi:io/streams
+  import wasi:http/types
+  import wasi:http/outgoing-handler
+  import wasi:cli/environment
+//   import wasi:clocks/wall-clock
+
+  export api
+}
